@@ -1,0 +1,10 @@
+{
+  "extends": "@repo/typescript-config/server.json",
+ "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./",
+    "resolveJsonModule":true
+  },
+  "exclude": ["node_modules"],
+  "include": ["./core","./config", "./controller", "./routes","./middleware"]
+}
