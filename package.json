@@ -5,7 +5,9 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\" ",
+    "dev:backend": "turbo run backend-repo#dev",
+    "dev:frontend": "turbo run frontend-repo#dev"
   },
   "devDependencies": {
     "prettier": "^3.4.2",
@@ -19,5 +21,9 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "@mui/icons-material": "^6.4.3",
+    "zod": "^3.24.1"
+  }
 }

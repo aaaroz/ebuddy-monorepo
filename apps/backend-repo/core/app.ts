@@ -1,17 +1,19 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import dotenv from "dotenv";
-import userRoutes from "../routes/userRoutes";
+import router from "../routes";
+import { authMiddleware } from "../middleware/authMiddleware";
+import { errorMiddleware } from "../middleware/errorMiddleware";
 
-const app = express();
 dotenv.config();
+const app = express();
 const port = process.env.APP_PORT ?? 3000;
 
 app.use(express.json());
-app.get("/", (_: Request, res: Response) => {
-  res.send("Hello, TypeScript with Express!");
-});
-app.use("/v1", userRoutes);
+
+app.use(errorMiddleware)
+app.use(authMiddleware)
+app.use("/v1", router);
 
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Server is running on http://localhost:${port}`);
 });

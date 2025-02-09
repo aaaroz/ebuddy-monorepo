@@ -1,28 +1,36 @@
 import { Request, Response } from "express";
-import { createUser, getUsers } from "../repository/userCollection";
+import { getUsers, updateUser } from "../repository/userCollection";
+import { TUser, userSchema } from "entities";
 
 export const apiController = {
-  createUser: async (req: Request, res: Response) => {
-    const { email, password } = req.body;
-    try {
-      const userRecord = await createUser(email, password);
-      res.status(201).json({
-        message: "User created successfully!",
-        data: { uid: userRecord.uid, email: userRecord.email },
-      });
-    } catch (error) {
-      res.status(500).json({ message: error });
-    }
-  },
-  getUsers: async (_: Request, res: Response) => {
-    try {
-      const userRecord = await getUsers();
-      res.status(200).json({
-        message: "User collection fetched successfully!",
-        data: userRecord,
-      });
-    } catch (error) {
-      res.status(500).json({ message: error });
-    }
-  },
+    updateUser: async (req: Request, res: Response) => {
+        const userData = req.body as TUser;
+        userSchema.parse(userData)
+        try {
+            await updateUser(userData.id, userData);
+            res.status(200).json({
+                message: "User updated successfully!",
+                data: { uid: userData.id, email: userData.email },
+            });
+        } catch (error) {
+            res.status(500).json({ message: error });
+        }
+    },
+    getUsers: async (req: Request, res: Response) => {
+        try {
+            const { limit = 10, lastUserId } = req.query
+            const parsedLimit = parseInt(limit as string, 10);
+            if (isNaN(parsedLimit) || parsedLimit <= 0) {
+                res.status(400).json({ message: 'Invalid limit parameter' });
+                return
+            }
+            const userRecord = await getUsers(parsedLimit, lastUserId as string);
+            res.status(200).json({
+                message: "User collection fetched successfully!",
+                data: userRecord,
+            });
+        } catch (error) {
+            res.status(500).json({ message: error });
+        }
+    },
 };
