@@ -1,4 +1,4 @@
-import { TUser } from "entities";
+import { TUser, userSchema } from "entities";
 
 export type TGenericResponse<T, K> = {
     message: T;
@@ -6,6 +6,8 @@ export type TGenericResponse<T, K> = {
 };
 
 export type TPaginatedUser = {
-    users: TUser[]
-    lastUserId?: string
-}
+    users: TUser[];
+    lastUserId?: string;
+};
+
+export { type TUser, userSchema };

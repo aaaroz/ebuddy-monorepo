@@ -5,9 +5,12 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\" ",
-    "dev:backend": "turbo run backend-repo#dev",
-    "dev:frontend": "turbo run frontend-repo#dev"
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "start": "turbo start",
+    "start:emulators": "cd apps/ && firebase emulators:start --import=./emulator-data --export-on-exit",
+    "seed": "cd apps/backend-repo && npm run seed",
+    "dev:all": "turbo dev --parallel",
+    "init:dev": "npm run dev:all && npm run seed"
   },
   "devDependencies": {
     "prettier": "^3.4.2",
@@ -24,6 +27,7 @@
   ],
   "dependencies": {
     "@mui/icons-material": "^6.4.3",
+    "axios": "^1.7.9",
     "zod": "^3.24.1"
   }
 }

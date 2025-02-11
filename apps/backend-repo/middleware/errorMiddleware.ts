@@ -1,30 +1,35 @@
-import type { TGenericResponse } from '../entities/types'
+import type { TGenericResponse } from "../entities/types";
 import { NextFunction, Request, Response } from "express";
+import { StatusCodes } from "http-status-codes";
 import { ZodError } from "zod";
 
-export const errorMiddleware = (
+export default async function errorMiddleware(
     error: unknown,
     _: Request,
-    res: Response<TGenericResponse<String, Error>>,
-    next: NextFunction
-) => {
+    res: Response<TGenericResponse<String, unknown>>,
+    next: NextFunction,
+) {
+    if (error instanceof ZodError) {
+        const errorMessages = error.errors.map((issue: { message: string }) => ({
+            message: issue.message,
+        }));
+        res
+            .status(StatusCodes.BAD_REQUEST)
+            .json({ message: "Invalid data", data: errorMessages });
+        return
+    }
     if (error instanceof Error) {
-        res.status(500).json({
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
             message: error.message,
         });
         return
     }
-    if (error instanceof ZodError) {
-        res.status(400).json({
-            message: error.errors[0].message,
-        });
-        return
-    }
     if (error) {
-        res.status(404).json({
+        res.status(StatusCodes.NOT_FOUND).json({
             message: "Not found",
         });
         return
     }
-    next(error);
-}
+
+    next();
+};

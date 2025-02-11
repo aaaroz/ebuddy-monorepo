@@ -1,48 +1,60 @@
-import Button from '@mui/material/Button'
-import Link from '@mui/material/Link'
-import MenuItem from '@mui/material/MenuItem'
-import React from 'react'
+import Button from "@mui/material/Button";
+import Link from "@mui/material/Link";
+import MenuItem from "@mui/material/MenuItem";
+import React from "react";
 
 const links = [
     {
         title: "Features",
-        href: "#"
+        href: "#",
     },
     {
         title: "Testimonials",
-        href: "#"
+        href: "#",
     },
     {
         title: "Highlights",
-        href: "#"
+        href: "#",
     },
     {
         title: "Pricing",
-        href: "#"
+        href: "#",
     },
     {
         title: "FAQ",
-        href: "#"
+        href: "#",
     },
     {
         title: "Blog",
-        href: "#"
+        href: "#",
     },
-]
+];
 interface NavLinksProps {
-    isMenuItem?: boolean
-    isFooterItem?: boolean
+    isMenuItem?: boolean;
+    isFooterItem?: boolean;
 }
-export default function NavLinks({ isMenuItem = false, isFooterItem = false }: NavLinksProps) {
-    const Comp: React.ElementType = isMenuItem ? MenuItem : isFooterItem ? Link : Button
+export default function NavLinks({
+    isMenuItem = false,
+    isFooterItem = false,
+}: NavLinksProps) {
+    const Comp: React.ElementType = isMenuItem
+        ? MenuItem
+        : isFooterItem
+            ? Link
+            : Button;
     return (
         <>
             {links.map((link) => (
-                <Comp key={link.title} variant={isFooterItem ? "body2" : "text"} color={isFooterItem ? "text.secondary" : "info"} size="small" href={link.href}>
+                <Comp
+                    key={link.title}
+                    variant={isFooterItem ? "body2" : !isMenuItem ? "text" : "text"}
+                    color={isFooterItem ? "text.secondary" : "primary"}
+                    size="small"
+                    href={link.href}
+                >
                     {link.title}
                 </Comp>
             ))}
         </>
-    )
+    );
 }
-

@@ -1,7 +1,6 @@
-import { TUser } from "entities"
+import { TUser } from "entities";
+import { TApisResponse } from "./common";
 
-export type TAuthResponse = {
-    ok: boolean
-    message: string
-    data?: TUser & { token: string }
-}
+export type TAuthResponse = TApisResponse & {
+    data?: TUser & { token: string };
+};

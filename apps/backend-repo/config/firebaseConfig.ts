@@ -1,18 +1,14 @@
 import * as admin from "firebase-admin";
-import * as serviceAccount from "../serviceAccountKey.json";
 
-admin.initializeApp({
-    credential: admin.credential.cert({
-        projectId: serviceAccount.project_id,
-        clientEmail: serviceAccount.client_email,
-        privateKey: serviceAccount.private_key.replace(/\\n/g, "\n"),
-    }),
+// admin.initializeApp({
+//     credential: admin.credential.cert({
+//         projectId: "ebuddy-test-27a07",
+//         clientEmail: "aaaroz@fake.mail",
+//     }),
+// });
+const app = admin.initializeApp({
+    projectId: "ebuddy-e0146",
 });
 
-if (process.env.NODE_ENV === "development") {
-    process.env.FIRESTORE_EMULATOR_HOST = "localhost:8080";
-    process.env.FIREBASE_AUTH_EMULATOR_HOST = "localhost:9099";
-}
-
-export const db = admin.firestore();
-export const auth = admin.auth();
+export const db = admin.firestore(app);
+export const auth = admin.auth(app);
